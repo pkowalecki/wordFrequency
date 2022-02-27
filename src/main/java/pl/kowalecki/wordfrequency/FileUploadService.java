@@ -43,6 +43,7 @@ public class FileUploadService {
 
         try (BufferedReader br = Files.newBufferedReader(Paths.get("uploads/" + nameOfTheFile))) {
             br.lines()
+
                     .map(pattern::matcher)
                     .flatMap(Matcher::results)
                     .map(matchResult -> matchResult.group(0))
