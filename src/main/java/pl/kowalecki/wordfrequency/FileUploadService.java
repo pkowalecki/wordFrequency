@@ -1,6 +1,7 @@
 package pl.kowalecki.wordfrequency;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class FileUploadService {
 
     @Value("uploads")
     public String uploadDir;
+
 
     public void uploadFile(MultipartFile file) {
         try {
@@ -35,11 +37,11 @@ public class FileUploadService {
 
     }
 
-    public LinkedHashMap<String, Long> countWordFreq() {
+    public LinkedHashMap<String, Long> countWordFreq(String nameOfTheFile) {
         Pattern pattern = Pattern.compile("[a-zA-Z]+");
         TreeMap<String, Long> treeMap = new TreeMap<>();
 
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("uploads/wordFrequ.txt"))) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get("uploads/" + nameOfTheFile))) {
             br.lines()
                     .map(pattern::matcher)
                     .flatMap(Matcher::results)
@@ -52,16 +54,12 @@ public class FileUploadService {
         return sortMap(treeMap);
     }
 
-    private LinkedHashMap<String, Long> sortMap(TreeMap<String, Long> treeMap) {
-
-        LinkedHashMap<String, Long> mapSorted = treeMap.entrySet()
+    LinkedHashMap<String, Long> sortMap(TreeMap<String, Long> treeMap) {
+        return treeMap.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (e1, e2) -> e1, LinkedHashMap::new));
-
-
-        return mapSorted;
     }
 
 }

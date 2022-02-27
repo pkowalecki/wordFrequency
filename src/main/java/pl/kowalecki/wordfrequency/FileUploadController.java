@@ -18,13 +18,12 @@ public class FileUploadController {
     private FileUploadService fileUploadService;
 
     @PostMapping("/uploadFile")
-
     public ResponseEntity<LinkedHashMap> uploadNewFile(@RequestParam("file") MultipartFile file) {
         try {
             fileUploadService.uploadFile(file);
-            return new ResponseEntity<>(fileUploadService.countWordFreq(), HttpStatus.OK);
+            return new ResponseEntity<>(fileUploadService.countWordFreq(file.getOriginalFilename()), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
