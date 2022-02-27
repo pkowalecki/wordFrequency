@@ -1,17 +1,21 @@
 package pl.kowalecki.wordfrequency;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class FileUploadService {
@@ -28,5 +32,22 @@ public class FileUploadService {
             throw new FileStorageException("Couldnt store file" + file.getOriginalFilename());
         }
 
+    }
+
+    public TreeMap<String, Long> countWordFreq(){
+        Pattern pattern = Pattern.compile("[a-zA-Z]+");
+        TreeMap<String, Long> treeMap= new TreeMap<>();
+
+        try(BufferedReader br = Files.newBufferedReader(Paths.get("uploads/wordFrequ.txt"))){
+            br.lines()
+                    .map(pattern::matcher)
+                    .flatMap(Matcher::results)
+                    .map(matchResult -> matchResult.group(0))
+                    .collect(Collectors.groupingBy(String::toLowerCase, TreeMap::new, Collectors.counting()))
+                    .forEach(treeMap::put);
+        }catch (IOException e){
+            System.err.format("IOException: %s%n", e);
+        }
+        return treeMap;
     }
 }
