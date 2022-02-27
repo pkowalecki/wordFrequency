@@ -2,7 +2,7 @@
 
 Aplikacja REST, której celem jest zliczanie powtarzających się słów w wybranym pliku.txt <br>
 Domyślny limit rozmiar plików - 500MB [app.properties](https://github.com/pkowalecki/wordFrequency/blob/master/src/main/resources/application.properties) <br>
-[wordFrequencyStartApp.cmd](https://github.com/pkowalecki/wordFrequency/blob/master/wordFrequencyStartApp.cmd) - skrypt włączający aplikację 
+[wordFrequencyStartApp.cmd](https://github.com/pkowalecki/wordFrequency/blob/master/wordFrequencyStartApp.cmd) - skrypt włączający aplikację <br>
 [wordFrequencyStartApp.cmd](https://github.com/pkowalecki/wordFrequency/blob/master/wordFrequencyExampleCall.cmd) - skrypt wywołujący przykładowy call z plikiem .txt
 
 ## Działanie aplikacji
