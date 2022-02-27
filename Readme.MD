@@ -6,8 +6,8 @@ Aplikacja REST, której celem jest zliczanie powtarzających się słów w wybra
 
 Za pomocą programu do sprawdzania połączeń z API (POSTMAN) wykonujemy połączenie POST do aplikacji: <br><br>
 
-<img src = "/images/post.png" width="200"> <br><br>
+<img src = "/images/post.png" width="1000"> <br><br>
 
 W odpowiedzi otrzymujemy zasumowaną liczbę podzielonych i posortowanych według występowania listę słów <br> <br>
 
-<img src = "/images/respoPNG.png" width="200"> <br><br>
+<img src = "/images/respo.png" width="1000"> <br><br>
